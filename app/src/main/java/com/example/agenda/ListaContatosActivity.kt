@@ -16,10 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
+
 import androidx.compose.ui.unit.dp
 import com.example.agenda.ui.theme.AgendaFuncionalPROJETOBASETheme
 
@@ -34,9 +31,7 @@ class ListaContatosActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             AgendaFuncionalPROJETOBASETheme {
-                ListaContatosScreen(contatos) {
-                    startActivity(Intent(this, CadastroContatoActivity::class.java))
-                }
+
             }
         }
     }
@@ -48,7 +43,7 @@ class ListaContatosActivity : ComponentActivity() {
 }
 
 @Composable
-fun ListaContatosScreen(contatos: List<Contato>, onAddClick: () -> Unit) {
+
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(onClick = onAddClick) {
@@ -57,6 +52,7 @@ fun ListaContatosScreen(contatos: List<Contato>, onAddClick: () -> Unit) {
         }
     ) { padding ->
         LazyColumn(modifier = Modifier.padding(padding)) {
+
             items(contatos) { contato ->
                 ContatoItem(contato)
             }
@@ -66,12 +62,7 @@ fun ListaContatosScreen(contatos: List<Contato>, onAddClick: () -> Unit) {
 
 @Composable
 fun ContatoItem(contato: Contato) {
-    Row(modifier = Modifier.padding(8.dp)) {
-        val imageRes = painterResource(
-            id = com.example.agenda.R.drawable.ic_launcher_foreground
-        )
-        Image(
-            painter = imageRes,
+
             contentDescription = null,
             modifier = Modifier.size(64.dp),
             contentScale = ContentScale.Crop
