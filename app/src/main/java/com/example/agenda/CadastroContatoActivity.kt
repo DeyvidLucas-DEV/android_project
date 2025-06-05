@@ -1,5 +1,6 @@
 package com.example.agenda
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -23,28 +24,39 @@ class CadastroContatoActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             AgendaFuncionalPROJETOBASETheme {
-                CadastroContatoScreen { nome, telefone, email ->
-                    val dao = ContatoDao(this)
-                    dao.inserir(
-                        Contato(
-                            nome = nome,
-                            telefone = telefone,
-                            email = email,
-                            imagem = "ic_launcher_foreground"
+                CadastroContatoScreen(
+                    onSalvar = { nome, telefone, email, imagem ->
+                        val dao = ContatoDao(this)
+                        dao.inserir(
+                            Contato(
+                                nome = nome,
+                                telefone = telefone,
+                                email = email,
+                                imagem = if (imagem.isBlank()) "ic_launcher_foreground" else imagem
+                            )
                         )
-                    )
-                    finish()
-                }
+                        startActivity(Intent(this, MainActivity::class.java))
+                        finish()
+                    },
+                    onHomeClick = {
+                        startActivity(Intent(this, MainActivity::class.java))
+                        finish()
+                    }
+                )
             }
         }
     }
 }
 
 @Composable
-fun CadastroContatoScreen(onSalvar: (String, String, String) -> Unit) {
+fun CadastroContatoScreen(
+    onSalvar: (String, String, String, String) -> Unit,
+    onHomeClick: () -> Unit
+) {
     var nome by remember { mutableStateOf("") }
     var telefone by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
+    var imagem by remember { mutableStateOf("") }
 
     Column(modifier = Modifier.padding(16.dp)) {
         OutlinedTextField(
@@ -67,9 +79,20 @@ fun CadastroContatoScreen(onSalvar: (String, String, String) -> Unit) {
             label = { Text("Email") },
             modifier = Modifier.fillMaxWidth()
         )
+        Spacer(modifier = Modifier.size(8.dp))
+        OutlinedTextField(
+            value = imagem,
+            onValueChange = { imagem = it },
+            label = { Text("Imagem (drawable)") },
+            modifier = Modifier.fillMaxWidth()
+        )
         Spacer(modifier = Modifier.size(16.dp))
-        Button(onClick = { onSalvar(nome, telefone, email) }) {
+        Button(onClick = { onSalvar(nome, telefone, email, imagem) }, modifier = Modifier.fillMaxWidth()) {
             Text("Salvar")
+        }
+        Spacer(modifier = Modifier.size(8.dp))
+        Button(onClick = onHomeClick, modifier = Modifier.fillMaxWidth()) {
+            Text("Home")
         }
     }
 }
