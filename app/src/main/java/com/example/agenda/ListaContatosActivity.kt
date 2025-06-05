@@ -9,7 +9,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -17,14 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.graphics.asImageBitmap
-import android.graphics.BitmapFactory
-import android.net.Uri
+
 import androidx.compose.ui.unit.dp
 import com.example.agenda.ui.theme.AgendaFuncionalPROJETOBASETheme
 
@@ -39,16 +31,7 @@ class ListaContatosActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             AgendaFuncionalPROJETOBASETheme {
-                ListaContatosScreen(
-                    contatos = contatos,
-                    onAddClick = {
-                        startActivity(Intent(this, CadastroContatoActivity::class.java))
-                    },
-                    onHomeClick = {
-                        startActivity(Intent(this, MainActivity::class.java))
-                        finish()
-                    }
-                )
+
             }
         }
     }
@@ -60,11 +43,7 @@ class ListaContatosActivity : ComponentActivity() {
 }
 
 @Composable
-fun ListaContatosScreen(
-    contatos: List<Contato>,
-    onAddClick: () -> Unit,
-    onHomeClick: () -> Unit
-) {
+
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(onClick = onAddClick) {
@@ -73,16 +52,7 @@ fun ListaContatosScreen(
         }
     ) { padding ->
         LazyColumn(modifier = Modifier.padding(padding)) {
-            item {
-                Button(
-                    onClick = onHomeClick,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp)
-                ) {
-                    Text("Home")
-                }
-            }
+
             items(contatos) { contato ->
                 ContatoItem(contato)
             }
@@ -92,25 +62,7 @@ fun ListaContatosScreen(
 
 @Composable
 fun ContatoItem(contato: Contato) {
-    val context = LocalContext.current
-    Row(modifier = Modifier.padding(8.dp)) {
-        val bitmap = remember(contato.imagem) {
-            try {
-                if (contato.imagem.isNotBlank()) {
-                    val uri = Uri.parse(contato.imagem)
-                    context.contentResolver.openInputStream(uri)?.use { stream ->
-                        BitmapFactory.decodeStream(stream)
-                    }
-                } else {
-                    null
-                }
-            } catch (e: Exception) {
-                null
-            }
-        } ?: BitmapFactory.decodeResource(context.resources, com.example.agenda.R.drawable.ic_launcher_foreground)
 
-        Image(
-            bitmap = bitmap.asImageBitmap(),
             contentDescription = null,
             modifier = Modifier.size(64.dp),
             contentScale = ContentScale.Crop
