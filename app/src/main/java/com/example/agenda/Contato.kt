@@ -3,5 +3,6 @@ data class Contato(
     val nome: String,
     val telefone: String,
     val email: String,
-    val imagem: String // nome do arquivo drawable, ex: "perfil1"
+    // caminho ou URI da imagem escolhida
+    val imagem: String
 )
