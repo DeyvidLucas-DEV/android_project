@@ -1,3 +1,7 @@
+import android.content.Context
+import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteOpenHelper
+
 class ContatoDbHelper(context: Context) : SQLiteOpenHelper(context, "contatos.db", null, 1) {
 
     override fun onCreate(db: SQLiteDatabase) {
