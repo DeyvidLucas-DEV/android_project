@@ -11,7 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.agenda.model.Contato
-import com.example.agenda.ui.theme.AgendaTheme
+import com.example.agenda.ui.theme.DevGendaTheme
 import com.example.agenda.viewmodel.ContatoViewModel
 
 class CadastroContatoActivity : ComponentActivity() {
@@ -21,7 +21,7 @@ class CadastroContatoActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            AgendaTheme {
+            DevGendaTheme {
                 CadastroContatoScreen { nome, telefone, email ->
                     viewModel.inserir(
                         Contato(
